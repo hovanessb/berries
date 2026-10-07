@@ -2,7 +2,7 @@ import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 /**
- * POST /api/revalidate?secret=…  → refetch the Toast menu, stock and status now
+ * POST /api/revalidate?secret=…  → refetch the Toast menu, stock, status and Google reviews now
  * (e.g. right after editing the menu in Toast Web). Otherwise it refreshes on its own.
  */
 export async function POST(req: Request) {
@@ -11,5 +11,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false }, { status: 401 });
   }
   revalidateTag("toast", "max");
-  return NextResponse.json({ ok: true, revalidated: "toast" });
+  revalidateTag("reviews", "max");
+  return NextResponse.json({ ok: true, revalidated: ["toast", "reviews"] });
 }

@@ -8,13 +8,14 @@ import { isMorning, HOURS_TEXT } from "@/lib/hours";
 import { SITE } from "@/lib/site";
 import { HandoffLink } from "@/components/HandoffLink";
 import { OrderCard } from "@/components/OrderCard";
-import { ReviewSlip } from "@/components/ReviewSlip";
+import { ReviewMarquee } from "@/components/ReviewSlip";
+import { getReviews } from "@/lib/reviews";
 import { CheckerBand, Iris } from "@/components/Deco";
 
 export const revalidate = 600;
 
 export default async function Home() {
-  const menu = await getMenu();
+  const [menu, reviews] = await Promise.all([getMenu(), getReviews()]);
   const all = menu.sections.flatMap((s) => s.items).filter((i) => !i.soldOut);
   const morning = isMorning();
   // Before 11am lead with breakfast; otherwise Toast's featured items. Bombtella's wide art leads when it's in.
@@ -39,7 +40,7 @@ export default async function Home() {
             <p className="bb-hero__proof"><strong>★ {SITE.rating}</strong> on DoorDash, with pickup and delivery</p>
           </div>
           <div className="bb-spot">
-            <Image src="/brand/billy-circle.jpg" alt="Billy, the Bomberry berry, marching in with a fist in the air" width={900} height={900} priority sizes="(min-width: 900px) 520px, 70vw" />
+            <Image src="/brand/billy-circle.webp" alt="Billy, the Bomberry berry, marching in with a fist in the air" width={720} height={720} priority sizes="(min-width: 900px) 520px, 70vw" />
           </div>
         </div>
       </section>
@@ -62,10 +63,13 @@ export default async function Home() {
       <section className="section section--cream" aria-labelledby="reviews">
         <div className="wrap">
           <h2 id="reviews" className="bb-display section-title">Word from the booths</h2>
-          <div className="bb-reviews">
-            {SITE.reviews.map((r) => <ReviewSlip key={r.name} {...r} />)}
-          </div>
-          <p className="bb-rating"><strong>★ {SITE.rating}</strong> on DoorDash. Delivery arrives ice-packed and fresh.</p>
+        </div>
+        <ReviewMarquee reviews={reviews.reviews} />
+        <div className="wrap">
+          <p className="bb-rating">
+            <strong>★ {reviews.rating.value}</strong> {reviews.rating.label}. Delivery arrives ice-packed and fresh.
+            {reviews.googleUri && <> <a href={reviews.googleUri} rel="noopener" target="_blank">Read more on Google</a></>}
+          </p>
         </div>
       </section>
 
@@ -74,7 +78,7 @@ export default async function Home() {
       <section className="section section--cream" aria-labelledby="visit-home">
         <div className="wrap bb-visit">
           <div className="bb-visit__photo">
-            <Image src="/shop/booths.jpg" alt="Inside Bomberry: red booths, cartoon murals and a black-and-white checker floor" width={1600} height={1067} sizes="(min-width: 760px) 50vw, 100vw" />
+            <Image src="/shop/booths.webp" alt="Inside Bomberry: red booths, cartoon murals and a black-and-white checker floor" width={1400} height={934} sizes="(min-width: 760px) 50vw, 100vw" />
           </div>
           <div>
             <h2 id="visit-home" className="bb-display bb-visit__title">Pull up a booth</h2>

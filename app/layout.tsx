@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: { default: `${SITE.name} · Acai Bowls & Smoothies in Walnut, CA`, template: `%s · ${SITE.name}` },
   description: SITE.description,
-  openGraph: { title: `${SITE.name}: ${SITE.tagline}`, description: SITE.description, type: "website", images: ["/shop/lineup.jpg"] },
+  openGraph: { title: `${SITE.name}: ${SITE.tagline}`, description: SITE.description, type: "website", images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Bomberry smoothies lined up on the counter" }] },
 };
 
 export const viewport: Viewport = {

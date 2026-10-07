@@ -10,7 +10,7 @@ export function SiteFooter() {
         <div className="bb-footer__grid">
           <div>
             <div className="bb-footer__brand">
-              <Image src="/brand/bomberry-wordmark.png" alt="Bomberry" width={900} height={205} sizes="200px" />
+              <Image src="/brand/bomberry-wordmark.webp" alt="Bomberry" width={600} height={137} sizes="200px" />
             </div>
             <p style={{ marginTop: 12 }}>{SITE.tagline}.</p>
           </div>

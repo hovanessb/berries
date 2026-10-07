@@ -53,7 +53,7 @@ export default function VisitPage() {
         </div>
         <div className="wrap">
           <div className="bb-wide-photo">
-            <Image src="/shop/counter-sign.jpg" alt="The Bomberry counter: white wave tile, raised letters and the checker floor" width={1600} height={763} sizes="(min-width: 1180px) 1116px, 100vw" />
+            <Image src="/shop/counter-sign.webp" alt="The Bomberry counter: white wave tile, raised letters and the checker floor" width={1600} height={763} sizes="(min-width: 1180px) 1116px, 100vw" />
           </div>
         </div>
       </section>

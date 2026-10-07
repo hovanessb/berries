@@ -178,20 +178,42 @@ a{color:inherit}
 .bb-visit__note{font-size:15px;color:var(--ink-soft);margin:var(--space-4) 0 0}
 .bb-map{width:100%;aspect-ratio:4/3;border:0;border-radius:var(--radius-card);background:#eee;box-shadow:0 18px 40px -18px rgba(20,0,2,.5)}
 .bb-wide-photo{border-radius:var(--radius-card);overflow:hidden;margin-top:var(--space-12)}
-.bb-wide-photo img{width:100%;aspect-ratio:21/9;object-fit:cover}
+.bb-wide-photo img{width:100%;aspect-ratio:21/9;object-fit:cover;object-position:top}
 
-/* ===== Reviews: cartoon speech balloons ===== */
-.bb-reviews{display:grid;gap:var(--space-12) var(--space-8);grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));align-items:start;max-width:960px;margin:0 auto}
-.bb-balloon{position:relative;margin:0 0 var(--space-6);background:#fff;border:var(--outline);border-radius:40px;padding:var(--space-8) var(--space-8) var(--space-6)}
+/* ===== Reviews: an endless drift of cartoon speech balloons ===== */
+.bb-marquee{position:relative;overflow:hidden;padding-block:var(--space-4) var(--space-12);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.bb-marquee__track{display:flex;width:max-content}
+.bb-marquee__set{display:flex;gap:var(--space-8);padding-right:var(--space-8);align-items:flex-start}
+.bb-marquee__toggle{display:block;margin:var(--space-4) auto 0;font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:transparent;
+  border:2px solid var(--ink);border-radius:var(--radius-pill);min-height:44px;padding:0 var(--space-6);cursor:pointer}
+.bb-marquee__toggle:hover{background:#fff}
+@media (prefers-reduced-motion:no-preference){
+  .bb-marquee__track{animation:bb-drift var(--bb-loop,40s) linear infinite}
+  .bb-marquee:hover .bb-marquee__track,.bb-marquee:focus-within .bb-marquee__track,.bb-marquee.is-paused .bb-marquee__track{animation-play-state:paused}
+}
+/* Reduced motion: no drift, just a row you can swipe. */
+@media (prefers-reduced-motion:reduce){
+  .bb-marquee{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-mask-image:none;mask-image:none;padding-inline:var(--space-4)}
+  .bb-marquee__copy,.bb-marquee__toggle,.bb-balloon[data-repeat]{display:none}
+  .bb-balloon{scroll-snap-align:center}
+}
+@keyframes bb-drift{to{transform:translateX(-50%)}}
+
+.bb-balloon{position:relative;flex:0 0 auto;width:min(82vw,380px);margin:0 0 var(--space-12);background:#fff;border:var(--outline);border-radius:40px;padding:var(--space-6) var(--space-8)}
 .bb-balloon::after{content:"";position:absolute;left:56px;bottom:-26px;width:34px;height:28px;background:#fff;border:var(--outline);border-top:0;border-left:0;
   clip-path:polygon(0 0,100% 0,100% 100%);transform:skewX(-20deg)}
-.bb-balloon:nth-child(even){transform:rotate(1.2deg)}
+.bb-balloon:nth-child(even){transform:rotate(1.2deg) translateY(14px)}
 .bb-balloon:nth-child(odd){transform:rotate(-1deg)}
-.bb-balloon__quote{font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3vw,32px);line-height:1.1;margin:0}
-.bb-balloon__who{position:absolute;left:104px;bottom:-40px;font-weight:800;font-size:15px}
-.bb-balloon__stars{color:var(--ring-1);font-size:18px;letter-spacing:2px;margin-bottom:var(--space-3)}
-.bb-rating{text-align:center;margin-top:var(--space-16);font-size:16px;color:var(--ink-soft)}
+.bb-balloon__quote{font-family:var(--font-display);font-weight:600;font-size:24px;line-height:1.15;margin:0;
+  display:-webkit-box;-webkit-line-clamp:6;line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.bb-balloon__who{position:absolute;left:104px;bottom:-44px;font-weight:800;font-size:15px;line-height:1.2}
+.bb-balloon__who a{color:var(--ink)}
+.bb-balloon__src{display:block;font-weight:500;font-size:13px;color:var(--ink-soft)}
+.bb-balloon__stars{color:var(--ring-1);font-size:18px;letter-spacing:2px;margin-bottom:var(--space-2)}
+.bb-rating{text-align:center;margin-top:var(--space-8);font-size:16px;color:var(--ink-soft)}
 .bb-rating strong{color:var(--ring-1);font-weight:900}
+.bb-rating a{color:var(--ink);font-weight:700}
 
 /* ===== Page head (Menu, Visit) ===== */
 .bb-pagehead{position:relative;isolation:isolate;overflow:hidden;text-align:center;color:var(--cream);padding-block:var(--space-16) var(--space-12)}
@@ -237,3 +259,50 @@ a{color:inherit}
 @keyframes bb-fade{from{opacity:0}}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* ===== Phones (most visitors): keep the order button in the first screen ===== */
+.bb-banner__short{display:none}
+@media (max-width:719px){
+  .bb-banner{flex-wrap:nowrap;gap:var(--space-3);font-size:13px;padding-block:6px}
+  .bb-banner__long{display:none}
+  .bb-banner__short{display:inline}
+  .bb-banner a{white-space:nowrap;padding-block:var(--space-2)}
+  .bb-header__bar{min-height:60px}
+  .bb-header__nav a:not(.bb-btn){display:inline-flex;align-items:center;min-height:44px;padding-inline:var(--space-1)}
+
+  .bb-hero{min-height:0;padding-block:var(--space-6) var(--space-12)}
+  .bb-hero__grid{gap:var(--space-4)}
+  .bb-spot{width:min(52vw,220px)}
+  .bb-hero .bb-iris{--cy:126px;--r:4.4px}
+  .bb-hero__title{font-size:clamp(56px,16vw,76px)}
+  .bb-hero__sub{font-size:17px;margin:var(--space-4) 0 var(--space-6)}
+  .bb-hero__ctas{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3)}
+  .bb-hero__ctas .bb-btn{padding-inline:var(--space-3)}
+
+  .section{padding-block:var(--space-12)}
+  .section--tight{padding-block:var(--space-8)}
+  .section-title{margin-bottom:var(--space-8)}
+  .bb-pagehead{padding-block:var(--space-8)}
+  .bb-card__type{aspect-ratio:16/9}
+  .bb-card__body{padding:var(--space-4)}
+  .bb-grid{gap:var(--space-4)}
+  .bb-balloon{padding:var(--space-4) var(--space-6)}
+  .bb-balloon__quote{font-size:22px}
+}
+
+/* Menu page on phones: two tiles per row, like the app. */
+@media (max-width:699px){
+  .bb-grid--compact{grid-template-columns:1fr 1fr;gap:var(--space-3)}
+  .bb-grid--compact .bb-card--wide{grid-column:span 2}
+  .bb-grid--compact .bb-card{border-radius:20px}
+  .bb-grid--compact .bb-card:not(.bb-card--wide) .bb-card__body{padding:var(--space-3);gap:var(--space-2)}
+  .bb-grid--compact .bb-card:not(.bb-card--wide) .bb-card__name{font-size:22px}
+  .bb-grid--compact .bb-card:not(.bb-card--wide) .bb-card__desc{font-size:13px;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:none}
+  .bb-grid--compact .bb-card:not(.bb-card--wide) .bb-card__foot{flex-direction:column;align-items:stretch;gap:var(--space-2);margin-top:auto}
+  .bb-grid--compact .bb-card:not(.bb-card--wide) .bb-price{font-size:21px}
+  .bb-grid--compact .bb-card:not(.bb-card--wide) .bb-btn{width:100%;padding-inline:var(--space-2)}
+  .bb-grid--compact .bb-card__type{aspect-ratio:760/721;padding:var(--space-3)}
+  .bb-grid--compact .bb-card__type .bb-display{font-size:30px}
+  .bb-grid--compact .bb-card__sticker{left:var(--space-2);bottom:var(--space-2)}
+  .bb-grid--compact .bb-sticker{font-size:11px;padding:5px 9px 4px}
+}

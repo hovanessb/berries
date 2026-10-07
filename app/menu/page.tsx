@@ -28,7 +28,7 @@ export default async function MenuPage() {
           <section key={section.id} className="section section--tight menu-section" aria-labelledby={`sec-${section.id}`}>
             <div className="wrap">
               <h2 id={`sec-${section.id}`} className="bb-display">{section.title}</h2>
-              <div className="bb-grid">
+              <div className="bb-grid bb-grid--compact">
                 {items.map((item, i) => <OrderCard key={item.id} item={item} priority={i === 0} />)}
               </div>
             </div>

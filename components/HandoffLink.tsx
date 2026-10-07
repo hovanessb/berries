@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 /**
  * A link that hands the guest to Toast checkout. A cartoon iris closes on Billy
@@ -32,8 +33,7 @@ export function HandoffLink({
       {sending && (
         <div className="bb-handoff" role="status" aria-live="polite">
           <div className="bb-handoff__spot">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/billy-circle.jpg" alt="" width={260} height={260} />
+            <Image src="/brand/billy-circle.webp" alt="" width={720} height={720} sizes="260px" />
           </div>
           <div className="bb-handoff__text">
             <div className="bb-display bb-handoff__title">Sending you to the counter</div>

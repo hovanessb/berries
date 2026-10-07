@@ -17,7 +17,7 @@ export function SiteHeader() {
     <header className="bb-header">
       <div className="wrap bb-header__bar">
         <Link href="/" className="bb-header__brand" aria-label="Bomberry home">
-          <Image src="/brand/bomberry-wordmark.png" alt="Bomberry" width={900} height={205} priority sizes="156px" />
+          <Image src="/brand/bomberry-wordmark.webp" alt="Bomberry" width={600} height={137} priority sizes="156px" />
         </Link>
         <nav className="bb-header__nav" aria-label="Main">
           {NAV.map((n) => (

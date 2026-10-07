@@ -13,17 +13,17 @@ export interface ItemArt {
   wide?: boolean;
 }
 
-const lettered = (src: string): ItemArt => ({ src, width: 800, height: 759, lettered: true });
+const lettered = (src: string): ItemArt => ({ src, width: 760, height: 721, lettered: true });
 
 export const ITEM_ART: Record<string, ItemArt> = {
-  "bombtella bowl": { src: "/menu/bombtella-bowl.jpg", width: 1400, height: 632, lettered: true, wide: true },
-  "bomberry classic": lettered("/menu/bomberry-classic.jpg"),
-  "billy's breakfast": lettered("/menu/billys-breakfast.jpg"),
-  "tropic boom": lettered("/menu/tropic-boom.jpg"),
-  "the heavy hitter": lettered("/menu/the-heavy-hitter.jpg"),
-  "baja blitz": lettered("/menu/baja-blitz.jpg"),
-  "strawberry smash": lettered("/menu/strawberry-smash.jpg"),
-  "midnight ube": { src: "/menu/midnight-ube.jpg", width: 800, height: 907, lettered: false },
+  "bombtella bowl": { src: "/menu/bombtella-bowl.webp", width: 1200, height: 542, lettered: true, wide: true },
+  "bomberry classic": lettered("/menu/bomberry-classic.webp"),
+  "billy's breakfast": lettered("/menu/billys-breakfast.webp"),
+  "tropic boom": lettered("/menu/tropic-boom.webp"),
+  "the heavy hitter": lettered("/menu/the-heavy-hitter.webp"),
+  "baja blitz": lettered("/menu/baja-blitz.webp"),
+  "strawberry smash": lettered("/menu/strawberry-smash.webp"),
+  "midnight ube": { src: "/menu/midnight-ube.webp", width: 760, height: 862, lettered: false },
 };
 
 export const artFor = (name: string): ItemArt | undefined => ITEM_ART[name.toLowerCase().replace(/’/g, "'")];
