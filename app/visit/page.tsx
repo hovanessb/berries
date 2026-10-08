@@ -19,7 +19,7 @@ export default function VisitPage() {
         <Iris />
         <header className="bb-pagehead wrap">
           <h1 className="bb-display">Visit</h1>
-          <p>Red booths, a checker floor and the counter where every bowl gets built. Come sit in, or grab it to go.</p>
+          <p>Red booths, a checker floor and Bomberry World painted on every wall, right by Mt. SAC. Come sit in, or grab it to go.</p>
         </header>
       </div>
       <section className="section section--cream">

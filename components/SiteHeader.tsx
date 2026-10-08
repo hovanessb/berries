@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import { Wordmark } from "./Wordmark";
 import { usePathname } from "next/navigation";
 import { ORDER_URL } from "@/lib/toast/links";
 import { HandoffLink } from "./HandoffLink";
 
 const NAV = [
   { href: "/menu", label: "Menu" },
+  { href: "/world", label: "World" },
+  { href: "/events", label: "Events" },
   { href: "/visit", label: "Visit" },
 ];
 
@@ -17,7 +19,7 @@ export function SiteHeader() {
     <header className="bb-header">
       <div className="wrap bb-header__bar">
         <Link href="/" className="bb-header__brand" aria-label="Bomberry home">
-          <Image src="/brand/bomberry-wordmark.webp" alt="Bomberry" width={600} height={137} priority sizes="156px" />
+          <Wordmark />
         </Link>
         <nav className="bb-header__nav" aria-label="Main">
           {NAV.map((n) => (

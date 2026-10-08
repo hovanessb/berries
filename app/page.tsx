@@ -31,7 +31,7 @@ export default async function Home() {
           <div className="bb-hero__copy">
             <h1 className="bb-display bb-hero__title">{SITE.tagline}</h1>
             <p className="bb-hero__sub">
-              Organic acai bowls and smoothies made with house-made nut butters and coconut milk, at 1223 N Grand Ave in Walnut.
+              Acai bowls and smoothies with everything made in-house, from the Bombtella to the coconut whip. Welcome to the delicious resistance.
             </p>
             <div className="bb-hero__ctas">
               <HandoffLink href={ORDER_URL} className="bb-btn bb-btn--cream">Start an order</HandoffLink>
@@ -58,6 +58,38 @@ export default async function Home() {
             <Link href="/menu" className="bb-btn bb-btn--cream">See all {all.length} items</Link>
           </div>
         </div>
+      </section>
+
+      <section className="section section--cream" aria-labelledby="story">
+        <div className="wrap bb-story">
+          <div className="bb-story__billy">
+            <Image src="/brand/billy-outline.webp" width={600} height={536} alt="" sizes="(min-width: 900px) 380px, 60vw" />
+          </div>
+          <div>
+            <h2 id="story" className="bb-display section-title">No shortcuts, ever</h2>
+            <p>
+              Two brothers noticed that food that&apos;s good for you is usually boring, and food that&apos;s fun is usually junk.
+              So they built Bomberry: a short menu done properly, inside a world of its own.
+            </p>
+            <h3 className="bb-story__label">Made in our kitchen</h3>
+            <ul className="bb-story__list">
+              {["Bombtella", "Peanut butter", "Almond butter", "Almond milk", "Coconut milk", "Coconut whip"].map((x) => (
+                <li key={x} className="bb-sticker">{x}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="bb-teaser" aria-labelledby="world">
+        <Link href="/world" className="bb-teaser__link">
+          <Image src="/world/map.webp" width={2400} height={1440} alt="" sizes="100vw" className="bb-teaser__img" />
+          <span className="bb-teaser__copy wrap">
+            <span id="world" className="bb-display bb-teaser__title">Pick a side</span>
+            <span className="bb-teaser__text">The Process Plateau has processed the world. Billy is leading the rebellion. Explore Bomberry World.</span>
+            <span className="bb-btn bb-btn--cream">Enter Bomberry World</span>
+          </span>
+        </Link>
       </section>
 
       <section className="section section--cream" aria-labelledby="reviews">
