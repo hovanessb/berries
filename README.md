@@ -50,12 +50,12 @@ Works on Vercel out of the box: import the repo, add the env vars from `.env.exa
 
 ## Map of the code
 ```
-app/            layout (banner, header, footer, JSON-LD), / (home), /menu, /world, /events, /visit,
+app/            layout (header, footer, JSON-LD), / (home), /menu, /world, /catering (was /events), /visit,
                 /api/revalidate, /api/inquiry (event quote emails via Resend)
 components/     HandoffLink (the iris that closes on Billy before Toast), OrderCard,
                 Deco (Iris, CheckerBand, Sticker), ReviewSlip (speech balloons), …
 lib/toast/      client (auth + cached GET), menu, availability, links (Toast item deep links), types
-lib/            art (designer item art), world (Bomberry World lore: lands, bosses, map pins), reviews (Google),
+lib/            art (designer item art), photos (product shots + blurbs for the home page), world (Bomberry World lore: lands, bosses, map pins), reviews (Google),
                 seed-menu, hours (Pacific time), site (address, phone, curated reviews)
 app/globals.css design tokens and all styles
 public/         brand/ (Billy), menu/ (item art), world/ (Bomberry World art), events/, shop/ (photos)

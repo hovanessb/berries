@@ -32,7 +32,7 @@ export function SiteFooter() {
             <p>
               <Link href="/menu">Menu</Link><br />
               <Link href="/world">Bomberry World</Link><br />
-              <Link href="/events">Events and catering</Link><br />
+              <Link href="/catering">Catering and events</Link><br />
               <Link href="/visit">Visit</Link>
             </p>
           </div>

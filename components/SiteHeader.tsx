@@ -9,7 +9,7 @@ import { HandoffLink } from "./HandoffLink";
 const NAV = [
   { href: "/menu", label: "Menu" },
   { href: "/world", label: "World" },
-  { href: "/events", label: "Events" },
+  { href: "/catering", label: "Catering" },
   { href: "/visit", label: "Visit" },
 ];
 

@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
   },
   // Pin the workspace root (a lockfile in a parent folder otherwise confuses Turbopack).
   turbopack: { root: __dirname },
+  // The catering page used to live at /events.
+  async redirects() {
+    return [{ source: "/events", destination: "/catering", permanent: true }];
+  },
 };
 
 export default nextConfig;

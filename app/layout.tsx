@@ -1,18 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Antonio, Montserrat } from "next/font/google";
+import { Anton, Montserrat } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { OpenBanner } from "@/components/OpenBanner";
 import { OrderBar } from "@/components/OrderBar";
 import { CheckerBand } from "@/components/Deco";
-import { getOrderingOpen } from "@/lib/toast/availability";
 import { ORDER_URL } from "@/lib/toast/links";
 import { SITE } from "@/lib/site";
 
-// Google Fonts. Antonio stands in for the designer's Proneic display face (tall, condensed, like the wordmark);
+// Google Fonts. Anton is the heavy condensed display face from the homepage mockup;
 // Montserrat is the designer's own text and price face.
-const antonio = Antonio({ weight: ["600", "700"], subsets: ["latin"], variable: "--ff-antonio", display: "swap" });
+const anton = Anton({ weight: "400", subsets: ["latin"], variable: "--ff-display", display: "swap" });
 const montserrat = Montserrat({ weight: ["500", "600", "700", "800", "900"], subsets: ["latin"], variable: "--ff-montserrat", display: "swap" });
 
 export const metadata: Metadata = {
@@ -53,16 +51,14 @@ const jsonLd = {
   sameAs: [SITE.instagram],
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const open = await getOrderingOpen();
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${antonio.variable} ${montserrat.variable}`}>
+    <html lang="en" className={`${anton.variable} ${montserrat.variable}`}>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>
         <a href="#main" className="skip">Skip to content</a>
-        <OpenBanner open={open} />
         <SiteHeader />
         <main id="main">{children}</main>
         <CheckerBand />

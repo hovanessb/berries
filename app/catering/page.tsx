@@ -7,7 +7,7 @@ import { ReviewMarquee } from "@/components/ReviewSlip";
 import { InquiryForm } from "@/components/InquiryForm";
 
 export const metadata: Metadata = {
-  title: "Events and catering",
+  title: "Catering and events",
   description:
     "Bring Bomberry to your party, campus event, office or team. Acai bowls and smoothies with everything made in-house. Request a quote.",
   openGraph: { images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Bomberry smoothies lined up" }] },
@@ -30,7 +30,7 @@ const INCLUDED = [
 
 const FOR = ["Birthdays and parties", "Mt. SAC clubs and campus events", "Office and team lunches", "Sports teams", "Weddings and showers", "School events"];
 
-export default async function EventsPage() {
+export default async function CateringPage() {
   const reviews = await getReviews();
   return (
     <>

@@ -1,132 +1,142 @@
-import { Fragment } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { getMenu } from "@/lib/toast/menu";
+import { getOrderingOpen } from "@/lib/toast/availability";
 import { ORDER_URL } from "@/lib/toast/links";
 import { FEATURED } from "@/lib/seed-menu";
 import { isMorning, HOURS_TEXT } from "@/lib/hours";
+import { photoFor } from "@/lib/photos";
+import { getReviews } from "@/lib/reviews";
 import { SITE } from "@/lib/site";
 import { HandoffLink } from "@/components/HandoffLink";
-import { OrderCard } from "@/components/OrderCard";
+import { Price } from "@/components/OrderCard";
 import { ReviewMarquee } from "@/components/ReviewSlip";
-import { getReviews } from "@/lib/reviews";
-import { CheckerBand, Iris } from "@/components/Deco";
+import { Iris } from "@/components/Deco";
 
 export const revalidate = 600;
 
+const MADE_IN_HOUSE = ["Bombtella", "Peanut butter", "Almond butter", "Almond milk", "Coconut milk", "Coconut whip"];
+
 export default async function Home() {
-  const [menu, reviews] = await Promise.all([getMenu(), getReviews()]);
-  const all = menu.sections.flatMap((s) => s.items).filter((i) => !i.soldOut);
-  const morning = isMorning();
-  // Before 11am lead with breakfast; otherwise Toast's featured items. Bombtella's wide art leads when it's in.
-  const order = morning ? ["billy's breakfast", "the heavy hitter", "bomberry classic"] : FEATURED;
-  const featured = order.map((n) => all.find((i) => i.name.toLowerCase() === n)).filter((i) => i != null);
-  const picks = (featured.length >= 3 ? featured : all).slice(0, 3).sort((a, b) => Number(!!b.art?.wide) - Number(!!a.art?.wide));
+  const [menu, reviews, open] = await Promise.all([getMenu(), getReviews(), getOrderingOpen()]);
+
+  // Three cravings: Toast's featured items first (breakfast ones before 11am), only those we have photos for.
+  const available = menu.sections.flatMap((s) => s.items).filter((i) => !i.soldOut && photoFor(i.name));
+  const order = isMorning() ? ["billy's breakfast", "the heavy hitter", "bombtella bowl"] : [...FEATURED, "billy's breakfast", "bomberry classic"];
+  const cravings = [
+    ...order.map((n) => available.find((i) => i.name.toLowerCase() === n)),
+    ...available,
+  ].filter((i, idx, all) => i && all.indexOf(i) === idx).slice(0, 3) as typeof available;
+
+  const { rating } = reviews;
+  const fromGoogle = Boolean(reviews.googleUri);
+  const reviewsHref = reviews.googleUri ?? SITE.mapUrl;
 
   return (
     <>
-      <section className="bb-hero">
+      {/* ===== Hero ===== */}
+      <section className="hx">
         <Iris />
-        <div className="wrap bb-hero__grid">
-          <div className="bb-hero__copy">
-            <h1 className="bb-display bb-hero__title">{SITE.tagline}</h1>
-            <p className="bb-hero__sub">
-              Acai bowls and smoothies with everything made in-house, from the Bombtella to the coconut whip. Welcome to the delicious resistance.
-            </p>
-            <div className="bb-hero__ctas">
-              <HandoffLink href={ORDER_URL} className="bb-btn bb-btn--cream">Start an order</HandoffLink>
+        <div className="wrap hx__grid">
+          <div className="hx__copy">
+            <p className="hx__kicker">Acai bowls &amp; smoothies</p>
+            <h1 className="bb-display hx__title">One bite.<br />Boom.</h1>
+            <p className="hx__sub">Fresh fruit. House-made spreads. Seriously good bowls.</p>
+            <div className="hx__ctas">
+              <HandoffLink href={ORDER_URL} className="bb-btn bb-btn--white">Order pickup</HandoffLink>
               <Link href="/menu" className="bb-btn bb-btn--line">See the menu</Link>
             </div>
-            <p className="bb-hero__proof"><strong>★ {SITE.rating}</strong> on DoorDash, with pickup and delivery</p>
-          </div>
-          <div className="bb-spot">
-            <Image src="/brand/billy-circle.webp" alt="Billy, the Bomberry berry, marching in with a fist in the air" width={720} height={720} priority sizes="(min-width: 900px) 520px, 70vw" />
-          </div>
-        </div>
-      </section>
-
-      <CheckerBand />
-
-      <section className="section section--rings" aria-labelledby="favorites">
-        <Iris />
-        <div className="wrap">
-          <h2 id="favorites" className="bb-display section-title">{morning ? "Breakfast's ready" : "Fan favorites"}</h2>
-          <div className="bb-grid bb-grid--feature">
-            {picks.map((item, i) => <OrderCard key={item.id} item={item} priority={i === 0} />)}
-          </div>
-          <div className="bb-more">
-            <Link href="/menu" className="bb-btn bb-btn--cream">See all {all.length} items</Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="section section--cream" aria-labelledby="story">
-        <div className="wrap bb-story">
-          <div className="bb-story__billy">
-            <Image src="/brand/billy-outline.webp" width={600} height={536} alt="" sizes="(min-width: 900px) 380px, 60vw" />
-          </div>
-          <div>
-            <h2 id="story" className="bb-display section-title">No shortcuts, ever</h2>
-            <p>
-              Two brothers noticed that food that&apos;s good for you is usually boring, and food that&apos;s fun is usually junk.
-              So they built Bomberry: a short menu done properly, inside a world of its own.
+            <p className="hx__stars">
+              <span className="hx__starrow" aria-hidden="true">{"★".repeat(Math.round(Number(rating.value)) || 5)}</span>
+              <span>{rating.value} stars {rating.label}</span>
             </p>
-            <h3 className="bb-story__label">Made in our kitchen</h3>
-            <ul className="bb-story__list">
-              {["Bombtella", "Peanut butter", "Almond butter", "Almond milk", "Coconut milk", "Coconut whip"].map((x) => (
-                <li key={x} className="bb-sticker">{x}</li>
-              ))}
-            </ul>
+            <a href="#reviews" className="hx__link">See what people are saying →</a>
+            <p className="hx__where">
+              <span className={open ? "hx__open" : "hx__closed"}>{open ? "Open now" : "Closed now"}</span>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z" /></svg>
+              <span>{SITE.address.city}, {SITE.address.region}</span>
+              <span aria-hidden="true">•</span>
+              <span>{SITE.address.street}</span>
+            </p>
+          </div>
+          <div className="hx__bowl">
+            <div className="hx__plate">
+              <Image src="/photos/bombtella-hero.webp" width={1000} height={1000} alt="A Bombtella Bowl: acai with house-made Bombtella drizzle, strawberries and banana in a red Bomberry cup" priority sizes="(min-width: 900px) 460px, 76vw" />
+            </div>
+            <Image className="hx__billy" src="/brand/billy-full.webp" width={520} height={456} alt="" sizes="(min-width: 900px) 170px, 120px" />
           </div>
         </div>
       </section>
+      <div className="checker-red" aria-hidden="true" />
 
-      <section className="bb-teaser" aria-labelledby="world">
-        <Link href="/world" className="bb-teaser__link">
-          <Image src="/world/map.webp" width={2400} height={1440} alt="" sizes="100vw" className="bb-teaser__img" />
-          <span className="bb-teaser__copy wrap">
-            <span id="world" className="bb-display bb-teaser__title">Pick a side</span>
-            <span className="bb-teaser__text">The Process Plateau has processed the world. Billy is leading the rebellion. Explore Bomberry World.</span>
-            <span className="bb-btn bb-btn--cream">Enter Bomberry World</span>
-          </span>
-        </Link>
+      {/* ===== Meet your next craving ===== */}
+      <section className="section paper" aria-labelledby="cravings">
+        <div className="wrap">
+          <h2 id="cravings" className="bb-display hx-title">Meet your next craving.</h2>
+          <ul className="cravings">
+            {cravings.map((item) => {
+              const photo = photoFor(item.name)!;
+              return (
+                <li key={item.id} className="craving">
+                  <div className="craving__photo">
+                    <Image src={photo.src} width={640} height={640} alt={`${item.name} in a red Bomberry cup`} sizes="(min-width: 900px) 340px, 72vw" />
+                  </div>
+                  <h3 className="bb-display craving__name">{item.name}</h3>
+                  <p className="craving__blurb">{photo.blurb}</p>
+                  <div className="craving__foot">
+                    <Price item={item} />
+                    <HandoffLink href={item.orderUrl} item={item.name} className="bb-btn bb-btn--sq" aria-label={`Order ${item.name} on Toast`}>Order</HandoffLink>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          <p className="cravings__more"><Link href="/menu" className="hx-link">Explore the full menu →</Link></p>
+        </div>
       </section>
 
-      <section className="section section--cream" aria-labelledby="reviews">
+      {/* ===== No shortcuts ===== */}
+      <section className="shortcuts paper" aria-labelledby="shortcuts">
+        <div className="shortcuts__photo">
+          <Image src="/photos/bombtella-closeup.webp" width={1200} height={720} alt="Close-up of house-made Bombtella with flaky salt on an acai bowl" sizes="(min-width: 900px) 55vw, 100vw" />
+        </div>
+        <div className="shortcuts__copy">
+          <h2 id="shortcuts" className="bb-display hx-title hx-title--left">No shortcuts. Ever.</h2>
+          <p>We make our Bombtella, nut butters, milks and coconut whip in our own kitchen.</p>
+          <ul className="chips">
+            {MADE_IN_HOUSE.map((x) => <li key={x}>{x}</li>)}
+          </ul>
+        </div>
+      </section>
+
+      {/* ===== Reviews ===== */}
+      <section id="reviews" className="section paper reviews" aria-labelledby="reviews-title">
         <div className="wrap">
-          <h2 id="reviews" className="bb-display section-title">Word from the booths</h2>
+          <h2 id="reviews-title" className="bb-display hx-title">
+            {fromGoogle ? `${rating.value} stars. ${rating.label.replace(/^from /, "")}.` : `${rating.value} stars. One Bomberry.`}
+          </h2>
+          <p className="reviews__sub">{fromGoogle ? "See what people are saying on Google." : "Here's what people are saying."}</p>
         </div>
         <ReviewMarquee reviews={reviews.reviews} />
-        <div className="wrap">
-          <p className="bb-rating">
-            <strong>★ {reviews.rating.value}</strong> {reviews.rating.label}. Delivery arrives ice-packed and fresh.
-            {reviews.googleUri && <> <a href={reviews.googleUri} rel="noopener" target="_blank">Read more on Google</a></>}
-          </p>
-        </div>
+        <p className="reviews__cta">
+          <a href={reviewsHref} className="bb-btn bb-btn--sq" target="_blank" rel="noopener">Read Google reviews</a>
+        </p>
       </section>
 
-      <CheckerBand />
-
-      <section className="section section--cream" aria-labelledby="visit-home">
-        <div className="wrap bb-visit">
-          <div className="bb-visit__photo">
-            <Image src="/shop/booths.webp" alt="Inside Bomberry: red booths, cartoon murals and a black-and-white checker floor" width={1400} height={934} sizes="(min-width: 760px) 50vw, 100vw" />
+      {/* ===== Pull up a booth ===== */}
+      <section className="booth" aria-labelledby="booth">
+        <div className="wrap booth__grid">
+          <div className="booth__photo">
+            <Image src="/shop/booths.webp" width={1400} height={934} alt="Inside Bomberry: red booths, cartoon murals and a black-and-white checker floor" sizes="(min-width: 900px) 560px, 100vw" />
           </div>
-          <div>
-            <h2 id="visit-home" className="bb-display bb-visit__title">Pull up a booth</h2>
-            <dl>
-              <dt>Where</dt>
-              <dd>{SITE.address.street}, {SITE.address.city}, {SITE.address.region} {SITE.address.zip}</dd>
-              {HOURS_TEXT.map((h) => (
-                <Fragment key={h.days}><dt>{h.days}</dt><dd>{h.time}</dd></Fragment>
-              ))}
-              <dt>Call</dt>
-              <dd><a href={SITE.phoneHref}>{SITE.phone}</a></dd>
-            </dl>
-            <div className="bb-hero__ctas">
-              <HandoffLink href={ORDER_URL} className="bb-btn">Order pickup</HandoffLink>
-              <a href={SITE.mapUrl} className="bb-btn bb-btn--ink">Get directions</a>
+          <div className="booth__copy">
+            <h2 id="booth" className="bb-display hx-title hx-title--left">Pull up a booth.</h2>
+            <p>{SITE.address.street}, {SITE.address.city}</p>
+            <p>{HOURS_TEXT.map((h) => `${h.days} ${h.time.replace(/ /g, "")}`).join(" • ")}</p>
+            <div className="booth__ctas">
+              <a href={SITE.mapUrl} className="bb-btn bb-btn--white bb-btn--sq">Get directions</a>
             </div>
+            <Link href="/world" className="hx-link hx-link--light">Explore Bomberry World →</Link>
           </div>
         </div>
       </section>
