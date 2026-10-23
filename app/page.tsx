@@ -58,9 +58,8 @@ export default async function Home() {
             </p>
           </div>
           <div className="hx__bowl">
-            <div className="hx__plate">
-              <Image src="/photos/hero-classic.webp" width={900} height={900} alt="A Bomberry Classic: acai topped with strawberries, blueberries, banana and coconut in a red Bomberry cup" priority sizes="(min-width: 900px) 460px, 76vw" />
-            </div>
+            <div className="hx__plate" aria-hidden="true" />
+            <Image className="hx__bowl-img" src="/photos/hero-bowl-classic.webp" width={1000} height={1123} alt="A Bomberry Classic: acai topped with strawberries, blueberries, banana and coconut in a red Bomberry cup" priority sizes="(min-width: 900px) 380px, 62vw" />
           </div>
         </div>
       </section>
