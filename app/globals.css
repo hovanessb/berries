@@ -667,3 +667,8 @@ a{color:inherit}
 /* Visit: buttons side by side, and the counter photo keeps the BOMBERRY letters in frame. */
 @media (min-width:900px){.vs-hero{grid-template-columns:minmax(420px,.95fr) 1.05fr}}
 .vs-hero__photo img{object-position:85% top}
+
+/* Hero bowl: the photo's background and shadow are pure white, so it sits seamlessly in the
+   white spotlight; the bowl is centred in its square and inset for breathing room. */
+.hx__plate{display:grid;place-items:center;background:#fff}
+.hx__plate img{width:80%;height:80%;object-fit:contain}
