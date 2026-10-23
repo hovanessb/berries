@@ -10,7 +10,6 @@ import { getReviews } from "@/lib/reviews";
 import { SITE } from "@/lib/site";
 import { HandoffLink } from "@/components/HandoffLink";
 import { Price } from "@/components/OrderCard";
-import { ReviewMarquee } from "@/components/ReviewSlip";
 import { Iris } from "@/components/Deco";
 
 export const revalidate = 600;
@@ -29,7 +28,6 @@ export default async function Home() {
   ].filter((i, idx, all) => i && all.indexOf(i) === idx).slice(0, 3) as typeof available;
 
   const { rating } = reviews;
-  const fromGoogle = Boolean(reviews.googleUri);
   const reviewsHref = reviews.googleUri ?? SITE.mapUrl;
 
   return (
@@ -40,8 +38,8 @@ export default async function Home() {
         <div className="wrap hx__grid">
           <div className="hx__copy">
             <p className="hx__kicker">Acai bowls &amp; smoothies</p>
-            <h1 className="bb-display hx__title">One bite.<br />Boom.</h1>
-            <p className="hx__sub">Fresh fruit. House-made spreads. Seriously good bowls.</p>
+            <h1 className="bb-display hx__title"><span>House-made.</span> <span>Crave-worthy.</span></h1>
+            <p className="hx__sub">We make our own toppings, blend smoothies without ice filler, and serve it all in a world we created from scratch.</p>
             <div className="hx__ctas">
               <HandoffLink href={ORDER_URL} className="bb-btn bb-btn--white">Order pickup</HandoffLink>
               <Link href="/menu" className="bb-btn bb-btn--line">See the menu</Link>
@@ -63,11 +61,10 @@ export default async function Home() {
             <div className="hx__plate">
               <Image src="/photos/classic-hero.webp" width={1000} height={1000} alt="A Bomberry Classic: acai topped with strawberries, blueberries, banana and coconut in a red Bomberry cup" priority sizes="(min-width: 900px) 460px, 76vw" />
             </div>
-            <Image className="hx__billy" src="/brand/billy-full.webp" width={520} height={456} alt="" sizes="(min-width: 900px) 170px, 120px" />
           </div>
         </div>
       </section>
-      <div className="checker-red" aria-hidden="true" />
+      <div className="checker-ink" aria-hidden="true" />
 
       {/* ===== Meet your next craving ===== */}
       <section className="section paper" aria-labelledby="cravings">
@@ -79,7 +76,7 @@ export default async function Home() {
               return (
                 <li key={item.id} className="craving">
                   <div className="craving__photo">
-                    <Image src={photo.src} width={640} height={640} alt={`${item.name} in a red Bomberry cup`} sizes="(min-width: 900px) 340px, 72vw" />
+                    <Image src={photo.src} width={photo.width} height={photo.height} alt={item.name} sizes="(min-width: 900px) 340px, 72vw" />
                   </div>
                   <h3 className="bb-display craving__name">{item.name}</h3>
                   <p className="craving__blurb">{photo.blurb}</p>
@@ -95,32 +92,50 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ===== No shortcuts ===== */}
-      <section className="shortcuts paper" aria-labelledby="shortcuts">
-        <div className="shortcuts__photo">
-          <Image src="/photos/bombtella-closeup.webp" width={1200} height={720} alt="Close-up of house-made Bombtella with flaky salt on an acai bowl" sizes="(min-width: 900px) 55vw, 100vw" />
-        </div>
-        <div className="shortcuts__copy">
-          <h2 id="shortcuts" className="bb-display hx-title hx-title--left">No shortcuts. Ever.</h2>
-          <p>We make our Bombtella, nut butters, milks and coconut whip in our own kitchen.</p>
-          <ul className="chips">
-            {MADE_IN_HOUSE.map((x) => <li key={x}>{x}</li>)}
-          </ul>
+      {/* ===== Made in our kitchen ===== */}
+      <section className="paper kitchen-wrap" aria-labelledby="kitchen">
+        <div className="wrap kitchen">
+          <div className="kitchen__photo">
+            <Image src="/photos/bombtella-closeup.webp" width={1200} height={720} alt="House-made Bombtella with flaky salt on an acai bowl" sizes="(min-width: 900px) 640px, 100vw" />
+          </div>
+          <div className="kitchen__copy">
+            <p className="kicker-red">Made in our kitchen</p>
+            <h2 id="kitchen" className="bb-display kitchen__title">House-made.<br />You can taste it.</h2>
+            <p>Our Bombtella hazelnut spread, nut butters, milks and coconut whip are made right here in our kitchen.</p>
+            <h3 className="kitchen__label">Made in our kitchen</h3>
+            <ul className="kitchen__list">
+              {MADE_IN_HOUSE.map((x) => <li key={x}>{x}</li>)}
+            </ul>
+          </div>
         </div>
       </section>
 
       {/* ===== Reviews ===== */}
-      <section id="reviews" className="section paper reviews" aria-labelledby="reviews-title">
-        <div className="wrap">
-          <h2 id="reviews-title" className="bb-display hx-title">
-            {fromGoogle ? `${rating.value} stars. ${rating.label.replace(/^from /, "")}.` : `${rating.value} stars. One Bomberry.`}
-          </h2>
-          <p className="reviews__sub">{fromGoogle ? "See what people are saying on Google." : "Here's what people are saying."}</p>
+      <section id="reviews" className="paper rv-wrap" aria-labelledby="reviews-title">
+        <div className="wrap rv">
+          <div className="rv__head">
+            <h2 id="reviews-title" className="bb-display rv__title">Reviews.</h2>
+            <div className="rv__score">
+              <p><span className="bb-display">{rating.value}</span> <span className="rv__stars" aria-hidden="true">{"★".repeat(Math.round(Number(rating.value)) || 5)}</span></p>
+              <p className="rv__count">{rating.label.startsWith("from ") ? rating.label.slice(5) : `Rated ${rating.label}`}</p>
+            </div>
+          </div>
+          <div className={`rv__grid rv__grid--${Math.min(reviews.reviews.length, 3)}`}>
+            {reviews.reviews.slice(0, 3).map((r, i) => (
+              <figure key={r.id} className={`rv__item${i === 0 ? " rv__item--lead" : ""}`}>
+                <div className="rv__stars" role="img" aria-label={`${r.stars} out of 5 stars`}>{"★".repeat(r.stars)}</div>
+                <blockquote className={i === 0 ? "bb-display" : undefined}>“{r.quote}”</blockquote>
+                <figcaption>
+                  {r.href ? <a href={r.href} target="_blank" rel="noopener">{r.name}</a> : r.name}
+                  <span>{r.source === "google" ? "Google" : "DoorDash"}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <p className="rv__cta">
+            <a href={reviewsHref} className="bb-btn" target="_blank" rel="noopener">Read Google reviews →</a>
+          </p>
         </div>
-        <ReviewMarquee reviews={reviews.reviews} />
-        <p className="reviews__cta">
-          <a href={reviewsHref} className="bb-btn bb-btn--sq" target="_blank" rel="noopener">Read Google reviews</a>
-        </p>
       </section>
 
       {/* ===== Pull up a booth ===== */}

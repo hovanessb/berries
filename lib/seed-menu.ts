@@ -40,7 +40,7 @@ export const SEED_MENU: MenuData = {
   sections: [
     {
       id: "bowls",
-      title: "Signature Acai Bowls",
+      title: "Signature Açaí Bowls",
       items: [
         item("Bomberry Classic", "Organic Acai, OG Granola, Banana, Strawberry, Blueberry, Organic Unsweetened Coconut, Honey", 12.5, true),
         item("Billy's Breakfast", "Organic Acai, Original Granola, Chia Pudding, Maple Cold Oats, Organic Toasted Coconut, Banana, Strawberry, House-Made Almond Butter, Organic Date Syrup", 14.5, true),

@@ -16,7 +16,8 @@ const NAV = [
 export function SiteHeader() {
   const path = usePathname();
   return (
-    <header className="bb-header">
+    // Catering gets the red header from its redesign; every other page is cream.
+    <header className={`bb-header${path?.startsWith("/catering") ? " bb-header--red" : ""}`}>
       <div className="wrap bb-header__bar">
         <Link href="/" className="bb-header__brand" aria-label="Bomberry home">
           <Wordmark />

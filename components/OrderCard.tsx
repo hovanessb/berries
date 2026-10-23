@@ -18,7 +18,7 @@ export function Price({ item }: { item: MenuItem }) {
  * A white menu tile like the app's: the designer's photo-and-logotype art when we have it,
  * otherwise the Toast photo, otherwise the name set large in the display face.
  */
-export function OrderCard({ item, priority }: { item: MenuItem; priority?: boolean }) {
+export function OrderCard({ item, priority, cta = "Order" }: { item: MenuItem; priority?: boolean; cta?: string }) {
   const { art } = item;
   const wide = art?.wide;
   // Lettered art and the type-only card already show the name; keep the heading for screen readers.
@@ -59,7 +59,7 @@ export function OrderCard({ item, priority }: { item: MenuItem; priority?: boole
           {/* Sold-out items show the "86'd today" sticker and no order button. */}
           {!item.soldOut && (
             <HandoffLink href={item.orderUrl} item={item.name} className="bb-btn bb-btn--sm" aria-label={`Order ${item.name} on Toast`}>
-              Order
+              {cta}
             </HandoffLink>
           )}
         </div>

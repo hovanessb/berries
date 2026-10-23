@@ -34,22 +34,19 @@ export default async function CateringPage() {
   const reviews = await getReviews();
   return (
     <>
-      <section className="bb-ev-hero">
-        <Iris />
-        <div className="wrap bb-ev-hero__grid">
+      <section className="ct-hero paper">
+        <div className="wrap ct-hero__grid">
           <div>
-            <h1 className="bb-display">Bring Bomberry to your event</h1>
-            <p>
-              Acai bowls and smoothies for parties, campus events, offices and teams around Walnut and the San Gabriel Valley.
-              Every quote is built for your event. No discounts, ever, just the full Bomberry treatment.
-            </p>
-            <div className="bb-hero__ctas">
-              <a href="#quote" className="bb-btn bb-btn--cream">Request a quote</a>
-              <a href={SITE.phoneHref} className="bb-btn bb-btn--line" aria-label={`Call ${SITE.phone}`}><span className="hide-sm">Call {SITE.phone}</span><span className="show-sm">Call us</span></a>
+            <p className="kicker-red kicker-red--wide">Catering</p>
+            <h1 className="bb-display ct-hero__title">Bring Bomberry to your event.</h1>
+            <p className="ct-hero__sub">Açaí bowls and smoothies for parties, campus events, offices and teams around Walnut and the San Gabriel Valley.</p>
+            <div className="ct-hero__ctas">
+              <a href="#quote" className="bb-btn">Request a quote</a>
+              <a href={SITE.phoneHref} className="ct-hero__call">Call {SITE.phone}</a>
             </div>
           </div>
-          <div className="bb-ev-hero__photo">
-            <Image src="/events/bowls-spread.webp" width={1600} height={900} alt="Four Bomberry acai bowls with granola and blueberries scattered around them" priority sizes="(min-width: 900px) 540px, 100vw" />
+          <div className="ct-hero__bowls">
+            <Image src="/photos/cutout-bowls.webp" width={1200} height={637} alt="Four Bomberry acai bowls: Bombtella, Billy's Breakfast, Bomberry Classic and Tropic Boom" priority sizes="(min-width: 900px) 640px, 100vw" />
           </div>
         </div>
       </section>

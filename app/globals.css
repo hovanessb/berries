@@ -390,16 +390,6 @@ a{color:inherit}
 .bb-side__visit a{color:var(--cream);font-weight:800}
 
 /* ===== Events ===== */
-.bb-ev-hero{position:relative;isolation:isolate;overflow:hidden;color:var(--cream);padding-block:var(--space-16)}
-.bb-ev-hero .bb-iris{--cx:80%;--cy:50%;--r:9px;z-index:-1}
-.bb-ev-hero__grid{display:grid;gap:var(--space-8);align-items:center}
-.bb-ev-hero h1{font-size:clamp(56px,9vw,120px);text-shadow:0 6px 0 rgba(40,0,3,.45)}
-.bb-ev-hero p{font-size:18px;max-width:32rem;margin:var(--space-6) 0 var(--space-8);color:#ffe9e2}
-.bb-ev-hero__photo{border-radius:var(--radius-card);overflow:hidden;border:4px solid var(--cream);box-shadow:0 20px 50px -20px rgba(0,0,0,.7)}
-.bb-ev-hero__photo img{width:100%;height:auto}
-@media (min-width:900px){.bb-ev-hero__grid{grid-template-columns:1fr 1fr}}
-@media (max-width:719px){.bb-ev-hero{padding-block:var(--space-8) var(--space-12)}.bb-ev-hero .bb-iris{--cx:50%;--cy:20%;--r:5px}}
-
 .bb-steps{list-style:none;counter-reset:step;margin:0;padding:0;display:grid;gap:var(--space-6);grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
 .bb-steps li{counter-increment:step;position:relative;background:#fff;border:var(--outline);border-radius:24px;padding:var(--space-8) var(--space-6) var(--space-6)}
 .bb-steps li::before{content:counter(step);position:absolute;top:-22px;left:var(--space-6);width:44px;height:44px;display:grid;place-items:center;border-radius:50%;
@@ -517,21 +507,6 @@ a{color:inherit}
   .craving{scroll-snap-align:center}
 }
 
-/* No shortcuts */
-.shortcuts{display:grid;align-items:center;border-top:2px solid var(--ink)}
-.shortcuts__photo img{width:100%;height:100%;object-fit:cover;aspect-ratio:5/3}
-.shortcuts__copy{padding:var(--space-12) var(--space-4)}
-.shortcuts__copy p{font-size:18px;font-weight:600;max-width:30rem;margin:0 0 var(--space-6)}
-.chips{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-3);max-width:34rem}
-.chips li{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;text-align:center;font-weight:700;font-size:14px;background:#fff}
-@media (min-width:900px){.shortcuts{grid-template-columns:1.15fr 1fr}.shortcuts__copy{padding:var(--space-12) var(--space-12)}.shortcuts__photo{height:100%}}
-@media (max-width:480px){.chips{grid-template-columns:repeat(2,minmax(0,1fr))}}
-
-/* Reviews */
-.reviews .hx-title{margin-bottom:var(--space-3)}
-.reviews__sub{text-align:center;font-size:18px;font-weight:600;margin:0 0 var(--space-8)}
-.reviews__cta{text-align:center;margin:var(--space-6) 0 0}
-
 /* Pull up a booth */
 .booth{background:#111;color:#fff;padding-block:var(--space-12)}
 .booth__grid{display:grid;gap:var(--space-8);align-items:center}
@@ -545,7 +520,7 @@ a{color:inherit}
 /* Readable review quotes (Anton is too heavy for sentences). */
 .bb-balloon__quote{font-family:var(--font-sans);font-weight:700;font-size:19px;line-height:1.35}
 /* Two-word section titles stay on one line on desktop. */
-.shortcuts .hx-title,.booth .hx-title{font-size:clamp(44px,4.6vw,72px)}
+.booth .hx-title{font-size:clamp(44px,4.6vw,72px)}
 .hx__closed{background:rgba(0,0,0,.22);border-radius:var(--radius-pill);padding:2px 10px}
 @media (max-width:719px){
   /* Four nav links + wordmark fit a 360px phone. */
@@ -555,3 +530,140 @@ a{color:inherit}
   .hx__ctas .bb-btn{padding-inline:var(--space-3);white-space:nowrap;font-size:15px}
   .bb-balloon__quote{font-size:17px}
 }
+
+/* ===================== October redesign ("Website Pages redesign/") ===================== */
+.kicker-red{margin:0 0 var(--space-3);font-family:var(--font-display);font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--ring-1)}
+.kicker-red--wide{letter-spacing:.32em;font-size:18px}
+.checker-ink{height:24px;background-color:var(--paper2);background-image:conic-gradient(var(--ink) 25%,transparent 0 50%,var(--ink) 0 75%,transparent 0);background-size:24px 24px}
+
+/* Header: red variant (Catering) */
+.bb-header--red{background:var(--ring-1);color:#fff;border-bottom:0}
+.bb-header--red .bb-header__brand{color:#fff}
+.bb-header--red .bb-header__nav a:not(.bb-btn){color:#fff}
+.bb-header--red .bb-header__nav a[aria-current="page"],.bb-header--red .bb-header__nav a:not(.bb-btn):hover{border-bottom-color:#fff}
+.bb-header--red .bb-btn{background:#fff;color:var(--ring-1);box-shadow:none}
+.bb-header--red :focus-visible{outline-color:#fff}
+
+/* Home hero: cream spotlight, no mascot */
+.hx__plate{background:#fff;box-shadow:0 0 0 14px rgba(253,242,204,.9),0 30px 60px -20px rgba(60,0,4,.6)}
+.hx__sub{font-size:20px;font-weight:600;max-width:31rem;line-height:1.45}
+.hx__title{font-size:clamp(64px,8.6vw,124px)}
+@media (max-width:899px){.hx__title{font-size:clamp(52px,14.5vw,84px)}.hx__sub{font-size:17px}}
+
+/* Cravings: clean cutouts on the page colour */
+.craving__photo{background:none;border-radius:0;aspect-ratio:1;display:grid;place-items:end center}
+.craving__photo img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 18px 18px rgba(60,20,10,.14))}
+
+/* Made in our kitchen */
+.kitchen-wrap{padding-block:var(--space-16)}
+.kitchen{display:grid;gap:var(--space-8);align-items:center;border-block:2px solid var(--ink);padding-block:var(--space-6)}
+.kitchen__photo img{width:100%;height:auto;aspect-ratio:5/3;object-fit:cover}
+.kitchen__title{font-size:clamp(52px,6.4vw,92px);line-height:.92}
+.kitchen__copy > p:not(.kicker-red){font-size:19px;max-width:30rem;margin:var(--space-6) 0}
+.kitchen__label{font-size:17px;font-weight:800;margin:0 0 var(--space-2)}
+.kitchen__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px var(--space-6);max-width:26rem}
+.kitchen__list li{position:relative;padding-left:22px;font-size:17px}
+.kitchen__list li::before{content:"";position:absolute;left:2px;top:.55em;width:8px;height:8px;border-radius:50%;background:var(--ring-1)}
+@media (min-width:900px){.kitchen{grid-template-columns:1.25fr 1fr;gap:var(--space-12)}}
+
+/* Reviews */
+.rv-wrap{padding-block:var(--space-12) var(--space-16)}
+.rv{border-block:2px solid var(--ink);padding-block:var(--space-12)}
+.rv__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:var(--space-6);margin-bottom:var(--space-8)}
+.rv__title{font-size:clamp(56px,7vw,96px)}
+.rv__score p{margin:0}
+.rv__score .bb-display{font-size:clamp(48px,5vw,68px);vertical-align:middle}
+.rv__score .rv__stars{font-size:clamp(26px,3vw,38px);vertical-align:middle;margin-left:var(--space-3)}
+.rv__count{font-size:15px;font-weight:600;margin-top:var(--space-2)!important}
+.rv__stars{color:var(--ring-1);letter-spacing:3px;font-size:22px}
+.rv__grid{display:grid;gap:var(--space-8)}
+.rv__item{margin:0}
+.rv__item blockquote{margin:var(--space-3) 0 var(--space-4);font-size:clamp(22px,2.2vw,30px);line-height:1.25;font-weight:500}
+.rv__item--lead blockquote{font-size:clamp(38px,4.6vw,68px);line-height:1;font-weight:400}
+.rv__item figcaption{font-weight:800;font-size:15px}
+.rv__item figcaption a{color:var(--ink)}
+.rv__item figcaption span{display:block;font-weight:500;color:var(--ink-soft);font-size:13px}
+.rv__cta{text-align:center;margin:var(--space-12) 0 0}
+.rv__cta .bb-btn{min-width:min(100%,380px);box-shadow:none}
+@media (min-width:900px){
+  .rv__grid{grid-template-columns:1.6fr 1fr 1fr;gap:0}
+  .rv__item{padding:0 var(--space-8)}
+  .rv__item:first-child{padding-left:0}
+  .rv__item + .rv__item{border-left:1px solid var(--ink)}
+}
+
+/* Catering hero */
+.ct-hero{padding-block:var(--space-12) var(--space-16)}
+.ct-hero__grid{display:grid;gap:var(--space-8);align-items:center}
+.ct-hero__title{font-size:clamp(60px,8vw,118px);line-height:.9}
+.ct-hero__sub{font-size:clamp(18px,1.8vw,24px);max-width:32rem;margin:var(--space-6) 0 var(--space-8)}
+.ct-hero__ctas{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4) var(--space-8)}
+.ct-hero__ctas .bb-btn{min-height:56px;padding-inline:var(--space-12);font-size:18px;box-shadow:none}
+.ct-hero__call{font-weight:800;color:var(--ink);font-size:18px}
+.ct-hero__bowls img{width:100%;height:auto;filter:drop-shadow(0 24px 24px rgba(60,20,10,.15))}
+@media (min-width:900px){.ct-hero__grid{grid-template-columns:1fr 1.1fr}}
+
+/* Visit */
+.vs-hero{display:grid;background:var(--ring-1);color:var(--cream)}
+.vs-hero__copy{padding:var(--space-12) var(--space-4)}
+.vs-hero__kicker{margin:0 0 var(--space-4);font-family:var(--font-display);font-size:17px;letter-spacing:.16em;text-transform:uppercase}
+.vs-hero__title{font-size:clamp(84px,11vw,160px);line-height:.88;color:var(--cream)}
+.vs-hero__copy > p:not(.vs-hero__kicker){font-size:18px;max-width:28rem;margin:var(--space-6) 0 var(--space-8)}
+.vs-hero__ctas{display:flex;flex-wrap:wrap;gap:var(--space-3)}
+.vs-hero__ctas .bb-btn{box-shadow:none}
+.vs-hero .bb-btn--line{box-shadow:inset 0 0 0 2px var(--cream);color:var(--cream)}
+.vs-hero__photo img{width:100%;height:100%;object-fit:cover;object-position:top;min-height:320px}
+@media (min-width:900px){
+  .vs-hero{grid-template-columns:minmax(380px,.8fr) 1.2fr}
+  .vs-hero__copy{padding:var(--space-16) var(--space-12) var(--space-16) max(var(--space-8),calc((100vw - var(--wrap)) / 2 + var(--space-8)))}
+}
+.vs-find{display:grid;gap:var(--space-8);align-items:start}
+.vs-find__title{font-size:clamp(56px,7vw,96px);line-height:.92}
+.vs-find__addr{font-style:normal;font-size:clamp(24px,2.4vw,32px);font-weight:800;line-height:1.2;margin-top:var(--space-6)}
+.vs-find__near{color:var(--ring-1);font-weight:800;font-size:20px;margin:var(--space-2) 0 var(--space-6)}
+.vs-hours{border-collapse:collapse;width:100%;max-width:24rem;font-size:19px}
+.vs-hours th,.vs-hours td{text-align:left;padding:var(--space-3) 0;border-top:1px solid rgba(0,0,0,.35)}
+.vs-hours tr:last-child th,.vs-hours tr:last-child td{border-bottom:1px solid rgba(0,0,0,.35)}
+.vs-hours th{font-weight:800;width:40%}
+.vs-find__phone{font-size:19px;margin:var(--space-4) 0 var(--space-6)}
+.vs-find__phone a{color:var(--ink);text-decoration:none}
+.vs-find__btn{width:100%;max-width:24rem;min-height:52px;font-size:18px}
+.vs-map{width:100%;aspect-ratio:4/3;border:0;border-radius:24px;background:#e8e2d4}
+@media (min-width:900px){.vs-find{grid-template-columns:.8fr 1.2fr;gap:var(--space-12)}.vs-map{aspect-ratio:auto;height:100%;min-height:480px}}
+.vs-band{background:var(--ring-1);color:var(--cream);padding-block:var(--space-8)}
+.vs-band__inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--space-6)}
+.vs-band__title{font-size:clamp(40px,5.4vw,76px);color:var(--cream)}
+.vs-band p{margin:var(--space-2) 0 0;font-size:19px}
+.vs-band .bb-btn{min-height:56px;padding-inline:var(--space-12);font-size:19px;box-shadow:none}
+
+/* Menu: section tabs + "Order ahead" cards */
+.mn-tabs-wrap{position:relative;padding-top:var(--space-12)}
+.mn-tabs{display:flex;justify-content:center;gap:var(--space-8)}
+.mn-tabs__tab{color:var(--cream);text-decoration:none;font-weight:800;font-size:clamp(18px,2vw,24px);padding:var(--space-2) var(--space-1);border-bottom:4px solid transparent;min-height:44px;display:inline-flex;align-items:center}
+.mn-tabs__tab[aria-current]{border-bottom-color:var(--cream)}
+.menu-section{scroll-margin-top:90px}
+.menu-section h2{text-shadow:0 4px 0 rgba(40,0,3,.35)}
+.bb-card__desc{padding-bottom:var(--space-3);border-bottom:1px solid rgba(0,0,0,.18)}
+.bb-card .bb-btn--sm{min-width:150px;box-shadow:none}
+@media (max-width:699px){.bb-card .bb-btn--sm{min-width:0}.mn-tabs-wrap{padding-top:var(--space-8)}}
+
+/* --- Redesign fixes after review --- */
+/* Hero headline: two lines, never broken mid-phrase. */
+.hx__title{font-size:clamp(52px,6.3vw,96px);line-height:.98}
+.hx__title span{display:block;white-space:nowrap}
+@media (min-width:900px){.hx__grid{grid-template-columns:1.15fr 1fr}}
+@media (max-width:899px){.hx__title{font-size:clamp(40px,13.6vw,72px)}}
+/* Anton's tall caps need a little more leading on multi-line titles. */
+.ct-hero__title,.kitchen__title,.vs-hero__title,.vs-find__title,.vs-band__title,.rv__title{line-height:.96}
+/* Reviews: the lead quote keeps its own casing; columns follow the quote count. */
+.rv__item--lead blockquote{text-transform:none;letter-spacing:-.01em}
+@media (min-width:900px){
+  .rv__grid--1{grid-template-columns:1fr}
+  .rv__grid--2{grid-template-columns:1.6fr 1fr}
+}
+/* Cards: rule above the price row (a rule under a clamped description leaks a half line). */
+.bb-card__desc{padding-bottom:0;border-bottom:0}
+.bb-card__foot{border-top:1px solid rgba(0,0,0,.18);padding-top:var(--space-3)}
+/* Visit: buttons side by side, and the counter photo keeps the BOMBERRY letters in frame. */
+@media (min-width:900px){.vs-hero{grid-template-columns:minmax(420px,.95fr) 1.05fr}}
+.vs-hero__photo img{object-position:85% top}
