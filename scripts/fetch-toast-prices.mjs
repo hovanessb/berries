@@ -29,11 +29,13 @@ try {
     userAgent:
       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
   });
-  await page.goto(ORDER_URL, { waitUntil: "networkidle", timeout: 60_000 });
-
+  // Not "networkidle": Toast's page never goes quiet (analytics, polling), so that wait times out.
+  // Load the DOM, then wait for the menu itself.
   try {
-    await page.waitForSelector('a[href*="/item-"]', { timeout: 20_000 });
-  } catch {
+    await page.goto(ORDER_URL, { waitUntil: "domcontentloaded", timeout: 45_000 });
+    await page.waitForSelector('a[href*="/item-"]', { timeout: 30_000 });
+  } catch (err) {
+    console.error(`Could not load menu: ${err.message.split("\n")[0]}`);
     await dumpDebug(page, "no item links found");
     throw new Error("No item links found on the Toast page (blocked, or the markup changed). See debug artifact.");
   }
