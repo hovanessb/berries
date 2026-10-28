@@ -1,0 +1,57 @@
+name: Sync Toast prices
+
+# Stop-gap until Toast API credentials are added. Reads prices from the public
+# Toast ordering page and commits data/toast-prices.json when they change;
+# the commit triggers a normal Vercel deploy. Delete this workflow once the
+# Toast Menus API is configured.
+
+on:
+  schedule:
+    - cron: "17 */6 * * *" # every 6 hours, off the hour
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: toast-prices
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright (not added to package.json)
+        run: |
+          npm install --no-save --no-package-lock playwright
+          npx playwright install --with-deps chromium
+
+      - name: Fetch prices
+        run: node scripts/fetch-toast-prices.mjs
+
+      - name: Commit changes
+        run: |
+          if git diff --quiet -- data/toast-prices.json; then
+            echo "No price changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/toast-prices.json
+          git commit -m "chore: sync Toast prices"
+          git push
+
+      - name: Upload debug files on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: toast-debug
+          path: debug/
+          if-no-files-found: ignore

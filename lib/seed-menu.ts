@@ -1,6 +1,14 @@
 import type { MenuData } from "./toast/types";
-import { itemOrderUrl } from "./toast/links";
+import { itemOrderUrl, slugify } from "./toast/links";
 import { artFor } from "./art";
+import livePrices from "../data/toast-prices.json";
+
+/**
+ * Prices (and item GUIDs) scraped from the public Toast ordering page by
+ * .github/workflows/toast-prices.yml. Empty until the first run; anything missing
+ * falls back to the hard-coded values below. Superseded by the Toast API.
+ */
+const LIVE = (livePrices as { items: Record<string, { guid: string; price: number; priceFrom: boolean }> }).items;
 
 /**
  * Fallback menu, copied from Bomberry's Toast online ordering page (Oct 2026).
@@ -23,17 +31,21 @@ const item = (
   price: number,
   priceFrom: boolean,
   opts: { guid?: string; sticker?: string } = {},
-) => ({
-  id: opts.guid ?? name,
-  name,
-  description,
-  price,
-  priceFrom,
-  soldOut: false,
-  orderUrl: itemOrderUrl(name, opts.guid),
-  sticker: opts.sticker ?? STICKERS[name.toLowerCase()],
-  art: artFor(name),
-});
+) => {
+  const live = LIVE[slugify(name)];
+  const guid = opts.guid ?? live?.guid;
+  return {
+    id: guid ?? name,
+    name,
+    description,
+    price: live?.price ?? price,
+    priceFrom: live ? live.priceFrom : priceFrom,
+    soldOut: false,
+    orderUrl: itemOrderUrl(name, guid),
+    sticker: opts.sticker ?? STICKERS[name.toLowerCase()],
+    art: artFor(name),
+  };
+};
 
 export const SEED_MENU: MenuData = {
   source: "seed",
