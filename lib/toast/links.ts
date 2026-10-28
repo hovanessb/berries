@@ -3,7 +3,7 @@ export const ORDER_URL = (
   process.env.NEXT_PUBLIC_TOAST_ORDER_URL || "https://www.toasttab.com/local/order/bomberry-1223-n-grand-ave"
 ).replace(/\/$/, "");
 
-const slugify = (s: string) =>
+export const slugify = (s: string) =>
   s
     .toLowerCase()
     .normalize("NFKD")
