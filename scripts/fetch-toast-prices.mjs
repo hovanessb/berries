@@ -32,7 +32,8 @@ try {
   // Not "networkidle": Toast's page never goes quiet (analytics, polling), so that wait times out.
   // Load the DOM, then wait for the menu itself.
   try {
-    await page.goto(ORDER_URL, { waitUntil: "domcontentloaded", timeout: 45_000 });
+    const resp = await page.goto(ORDER_URL, { waitUntil: "domcontentloaded", timeout: 45_000 });
+    console.log(`HTTP ${resp?.status()} ${resp?.url()}`);
     await page.waitForSelector('a[href*="/item-"]', { timeout: 30_000 });
   } catch (err) {
     console.error(`Could not load menu: ${err.message.split("\n")[0]}`);
@@ -91,6 +92,21 @@ try {
 }
 
 async function dumpDebug(page, reason) {
+  // Print what the page looked like straight into the Actions log, so it can be read without downloading the artifact.
+  try {
+    const info = await page.evaluate(() => ({
+      url: location.href,
+      title: document.title,
+      anchors: document.querySelectorAll("a").length,
+      itemLinks: document.querySelectorAll('a[href*="item-"]').length,
+      sampleHrefs: [...document.querySelectorAll("a[href]")].slice(0, 15).map((a) => a.getAttribute("href")),
+      priceMentions: (document.body.innerText.match(/\$\s?\d+(?:\.\d{2})?/g) || []).length,
+      text: document.body.innerText.replace(/\s+/g, " ").slice(0, 600),
+    }));
+    console.error("PAGE DIAGNOSTICS " + JSON.stringify(info, null, 2));
+  } catch (e) {
+    console.error("Could not read page for diagnostics: " + e.message);
+  }
   await mkdir(DEBUG_DIR, { recursive: true });
   await writeFile(new URL("reason.txt", DEBUG_DIR), reason + "\n");
   await writeFile(new URL("page.html", DEBUG_DIR), await page.content());
